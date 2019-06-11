@@ -1,6 +1,6 @@
 package com.example.flutternativeimage;
 
-import android.app.Activity;
+import android.app.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
@@ -26,17 +26,17 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
  * FlutterNativeImagePlugin
  */
 public class FlutterNativeImagePlugin implements MethodCallHandler {
-  private final Activity activity;
+  private final Context context;
   /**
    * Plugin registration.
    */
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_native_image");
-    channel.setMethodCallHandler(new FlutterNativeImagePlugin(registrar.activity()));
+    channel.setMethodCallHandler(new FlutterNativeImagePlugin(registrar.context()));
   }
 
-  private FlutterNativeImagePlugin(Activity activity) {
-    this.activity = activity;
+  private FlutterNativeImagePlugin(Context context) {
+    this.context = context;
   }
 
   @Override
@@ -73,7 +73,7 @@ public class FlutterNativeImagePlugin implements MethodCallHandler {
         String outputFileName = File.createTempFile(
           getFilenameWithoutExtension(file).concat("_compressed"),
           ".jpg",
-          activity.getExternalCacheDir()
+          context.getExternalCacheDir()
         ).getPath();
 
         OutputStream outputStream = new FileOutputStream(outputFileName);
@@ -151,7 +151,7 @@ public class FlutterNativeImagePlugin implements MethodCallHandler {
         String outputFileName = File.createTempFile(
           getFilenameWithoutExtension(file).concat("_cropped"),
           ".jpg",
-          activity.getExternalCacheDir()
+          context.getExternalCacheDir()
         ).getPath();
 
 
